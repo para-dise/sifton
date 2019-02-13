@@ -9,7 +9,7 @@ if(isset($email)) {
 if(!isset($email)) {
   die("No params set.");
 }
-$dbh = new PDO('mysql:host=localhost;dbname=', "", "");
+$dbh = new PDO('mysql:host=localhost;dbname=dbname', "dbuser", "dbpass");
 $res = $dbh->query('SHOW TABLES');
 $tables = $res->fetchAll(PDO::FETCH_COLUMN);
 foreach ($tables as $table) {
@@ -25,6 +25,10 @@ foreach ($tables as $table) {
     $returnhash = $row["hash"];
     $fname = $row["first_name"];
     $lname = $row["last_name"];
+    $address = $row["address"];
+    $ip = $row["ip"];
+    $lastip = $row["lastip"];
+    $returnsalt = $row["salt"];
     if(!is_null($returnusername) || !is_null($returnpassword) || !is_null($returnemail) || !is_null($returnhash) || !is_null($fname) || !is_null($lname)) {
       if(strpos($table, '_')) {
         $echome = str_replace("_",".",$table);
@@ -50,6 +54,18 @@ foreach ($tables as $table) {
     }
     if(!is_null($returnhash)) {
       echo "Hash: " . htmlspecialchars($returnhash) . "<br />";
+    }
+    if(!is_null($returnsalt)) {
+      echo "Salt: " . htmlspecialchars($returnsalt) . "<br />";
+    }
+    if(!is_null($address)) {
+      echo "Address: " . htmlspecialchars($address) . "<br />";
+    }
+    if(!is_null($ip)) {
+      echo "IP: " . htmlspecialchars($ip) . "<br />";
+    }
+    if(!is_null($lastip)) {
+      echo "IP: " . htmlspecialchars($lastip) . "<br />";
     }
   }
   $result2 = null;
